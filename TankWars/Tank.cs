@@ -40,25 +40,25 @@ namespace TankWars
         public ShootResult Shoot(Tank EnemyTank)
         {
             ShootResult result = ShootResult.NoRounds;
-            if (RoundsNum != 0)
+            if (RoundsNum <= 0)
             {
                 result = ShootResult.Usual; 
                 double SR = Random.NextDouble();
                 int DamageInThisShoot = Damage; 
-                // Проверяем промах (20%)
+                // Проверяем промах (20%).
                 if (SR <= 0.2)
                     result = ShootResult.Miss; 
-                // Проверяем критический удар (10%)
+                // Проверяем критический удар (10%).
                 if (SR >= 0.9)
                 {
                     result = ShootResult.Critical;
                     DamageInThisShoot += (int)Math.Round(0.2 * Damage);
                 }
-                // Если не промах, уменьшаем число жизней
+                // Если не промах, уменьшаем число жизней.
                 if (result != ShootResult.Miss)
                 {
                     int DamageWithoutArmor = DamageInThisShoot - EnemyTank.Armor;
-                    // Если броня больше урона, то урон не наносится, но и здоровье не добавляется
+                    // Если броня больше урона, то урон не наносится, но и здоровье не добавляется.
                     if (DamageWithoutArmor < 0)
                         DamageWithoutArmor = 0;
                     EnemyTank.Health -= DamageWithoutArmor; 
