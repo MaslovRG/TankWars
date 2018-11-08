@@ -30,7 +30,7 @@ namespace TankWars
         int Damage { get; set; }
         int RoundsNum { get; set; }
 
-        ShootResult Shoot(Tank EnemyTank);
+        ShootResult Shoot(ITank EnemyTank);
         void Repair();
         void BuyRounds(); 
     }
