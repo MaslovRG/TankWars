@@ -10,8 +10,8 @@ namespace TankWars
     {
         static void Main(string[] args)
         {
-            Tank ourTank = new Tank(10, 300, 20);
-            Tank enemyTank = new Tank(0, 250, 10);
+            Tank ourTank = new Tank(5, 300, 20);
+            ComputerTank enemyTank = new ComputerTank(10, 250, 10);
 
             Random enemyRandom = new Random();
             bool isEnd = false;
@@ -31,20 +31,14 @@ namespace TankWars
                     " 3. Покупка патронов\n" + 
                     "Введите число, соотвествующее желаемому действию:");
 
-                string[] stringActions = { "1", "2", "3" };
-
                 // Считывание действия пользователя с проверкой правильности ввода. 
-                string ioAction = "";
+                string ioAction;
                 do
                 {
                     ioAction = Console.ReadLine();
-                    if (!stringActions.Contains(ioAction))
-                    {
-                        Console.WriteLine("Введите допустимые числа!");
-                        IsParsed = false; 
-                    }
-                    else
-                        IsParsed = true;
+                    IsParsed = Enum.TryParse(ioAction, out ourAction);
+                    if (!IsParsed)
+                        Console.WriteLine("Введите допустимое число");
                 }
                 while (!IsParsed);
                 ourAction = (Actions)int.Parse(ioAction); 
@@ -90,42 +84,38 @@ namespace TankWars
                 else
                 {
                     // Генерация действия противника.
-                    double ieAction = enemyRandom.NextDouble();
-                    if (ieAction > 0.5 || enemyTank.Health == enemyTank.MaxHealth)
-                        enmAction = Actions.Shoot;
-                    else
-                        enmAction = Actions.Repair;
+                    enmAction = enemyTank.ComputerTurn(); 
 
                     // Ход противника. 
                     switch (enmAction)
                     {
                         case Actions.Shoot:
+                            Console.WriteLine("Противник стреляет!");
                             shootResult = enemyTank.Shoot(ourTank);
                             switch (shootResult)
-                            {
-                                case ShootResult.NoRounds:
-                                    enemyTank.BuyRounds();
-                                    Console.WriteLine("Враг купил патроны.");
-                                    break;
-
+                            {                                
                                 case ShootResult.Usual:
-                                    Console.WriteLine("Противник стреляет!"); 
                                     Console.WriteLine("Нам нанесён стандартный урон.");
                                     break;
                                 case ShootResult.Critical:
-                                    Console.WriteLine("Противник стреляет!");
-                                    Console.WriteLine("Критическое попадание! Противник нанёс 20% больше урона.");
+                                    Console.WriteLine("Критическое попадание! Противник нанёс на 20% больше урона.");
                                     break;
                                 case ShootResult.Miss:
-                                    Console.WriteLine("Противник стреляет!");
-                                    Console.WriteLine("Противник промахнулся.");
-                                    break;                                
+                                    Console.WriteLine("Противник промахнулся...");
+                                    break;
+                                case ShootResult.NoRounds:
+                                    Console.WriteLine("Противник не смог выстрелить, так как у него нет патронов.");
+                                    break;
                             }
                             break;
                         case Actions.Repair:                            
                             enemyTank.Repair();
                             Console.WriteLine("Танк врага починился!");
                             break;
+                        case Actions.Buy:
+                            enemyTank.BuyRounds();
+                            Console.WriteLine("Танк врага купил патроны!"); 
+                            break; 
                     }
 
                     // Победа противника. 

@@ -40,7 +40,7 @@ namespace TankWars
         public ShootResult Shoot(ITank EnemyTank)
         {
             ShootResult result = ShootResult.NoRounds;
-            if (RoundsNum <= 0)
+            if (RoundsNum > 0)
             {
                 result = ShootResult.Usual; 
                 double SR = Random.NextDouble();
