@@ -37,7 +37,7 @@ namespace TankWars
         /// </summary>
         /// <param name="EnemyTank">Объект, описывающий танк, в который стреляют</param>
         /// <returns>Возвращает результат выстрела</returns>        
-        public ShootResult Shoot(Tank EnemyTank)
+        public ShootResult Shoot(ITank EnemyTank)
         {
             ShootResult result = ShootResult.NoRounds;
             if (RoundsNum <= 0)
