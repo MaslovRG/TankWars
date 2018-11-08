@@ -12,7 +12,7 @@ namespace TankWars
         public int Health { get; set; }
         public int Damage { get; set; }
         public int RoundsNum { get; set; }
-        protected readonly int MaxHealth;
+        public readonly int MaxHealth;
         protected readonly Random Random; 
 
         /// <summary>
