@@ -32,6 +32,7 @@ namespace TankWars
             ShootResult result = ShootResult.NoRounds;
             if (RoundsNum > 1)
             {
+                result = ShootResult.Usual; 
                 EnemyTank.Health -= Damage;
                 RoundsNum--; 
             }
