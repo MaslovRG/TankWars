@@ -6,33 +6,99 @@ using System.Threading.Tasks;
 
 namespace TankWars
 {
-    enum Actions
+    public enum Actions
     {
         Shoot = 1,
-        Repair
+        Repair,
+        Buy
+    }
+
+    public enum ShootResult
+    {
+        Usual = 1,
+        Critical,
+        Miss,
+        NoRounds
     }
 
     public class Tank
     {
         public int Armor;
         public int Health;
-        public int Damage; 
+        public int Damage;
+        public int RoundsNum;
+        public readonly int MaxHealth;
+        protected readonly Random random; 
 
+        /// <summary>
+        /// Инициализирует класс Tank
+        /// </summary>
+        /// <param name="nArmor">Значение брони</param>
+        /// <param name="nHealth">Значение здоровья</param>
+        /// <param name="nDamage">Значение урона</param>        
         public Tank(int nArmor, int nHealth, int nDamage)
         {
             Armor = nArmor;
             Health = nHealth;
-            Damage = nDamage; 
+            MaxHealth = nHealth; 
+            Damage = nDamage;
+            RoundsNum = 5;
+            // random для определения критических попаданий и промахов. 
+            random = new Random(); 
         }
 
-        public void Shoot(Tank EnemyTank)
+        /// <summary>
+        /// Стреляет по другому танку (если броня больше урона, то жизни не меняются)
+        /// </summary>
+        /// <param name="EnemyTank">Объект, описывающий танк, в который стреляют</param>
+        /// <returns>Возвращает результат выстрела</returns>        
+        public ShootResult Shoot(Tank EnemyTank)
         {
-            EnemyTank.Health += EnemyTank.Armor - Damage; 
+            ShootResult result = ShootResult.NoRounds;
+            if (RoundsNum != 0)
+            {
+                result = ShootResult.Usual; 
+                double SR = random.NextDouble();
+                int DamageInThisShoot = Damage; 
+                // Проверяем промах (20%)
+                if (SR <= 0.2)
+                    result = ShootResult.Miss; 
+                // Проверяем критический удар (10%)
+                if (SR >= 0.9)
+                {
+                    result = ShootResult.Critical;
+                    DamageInThisShoot += (int)Math.Round(0.2 * Damage);
+                }
+                // Если не промах, уменьшаем число жизней
+                if (result != ShootResult.Miss)
+                {
+                    int DamageWithoutArmor = DamageInThisShoot - EnemyTank.Armor;
+                    // Если броня больше урона, то урон не наносится, но и здоровье не добавляется
+                    if (DamageWithoutArmor < 0)
+                        DamageWithoutArmor = 0;
+                    EnemyTank.Health -= DamageWithoutArmor; 
+                }
+                RoundsNum--;
+            }
+            return result;             
         }
 
+        /// <summary>
+        /// Чинится (не больше максимального значения)
+        /// </summary>
         public void Repair()
         {
-            Health += 5; 
+            Health += 5;
+            if (Health > MaxHealth)
+                Health = MaxHealth; 
+        }
+
+        /// <summary>
+        /// Закупает патроны
+        /// </summary>
+        public void BuyRounds()
+        {
+            RoundsNum += 4; 
         }
     }
 }
