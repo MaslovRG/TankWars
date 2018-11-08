@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace TankWars
 {
+    enum Actions
+    {
+        Shoot,
+        Repair
+    }
+
     public class Tank
     {
         public int Armor;
