@@ -17,7 +17,7 @@ namespace TankWars
         /// <summary>
         /// Определяет, что нужно сделать танку, управляемому компьютером
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Возвращает действие</returns>
         public Actions ComputerTurn()
         {
             Actions action = Actions.Shoot;
