@@ -40,6 +40,7 @@ namespace TankWars
         public ShootResult Shoot(ITank EnemyTank)
         {
             ShootResult result = ShootResult.NoRounds;
+            // Проверяем, есть ли патроны. 
             if (RoundsNum > 0)
             {
                 result = ShootResult.Usual; 
@@ -83,7 +84,7 @@ namespace TankWars
         /// </summary>
         public void BuyRounds()
         {
-            RoundsNum += 4; 
+            RoundsNum += 5; 
         }
     }
 }

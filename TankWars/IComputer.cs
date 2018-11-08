@@ -8,6 +8,6 @@ namespace TankWars
 {
     public interface IComputer
     {
-        Actions ComputerTurn(); 
+        Actions ComputerTurn(ITank EnemyTank); 
     }
 }

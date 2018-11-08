@@ -11,7 +11,7 @@ namespace TankWars
         static void Main(string[] args)
         {
             Tank ourTank = new Tank(5, 300, 20);
-            ComputerTank enemyTank = new ComputerTank(10, 250, 10);
+            SimpleComputerTank enemyTank = new SimpleComputerTank(10, 250, 10);
 
             Random enemyRandom = new Random();
             bool isEnd = false;
@@ -41,8 +41,9 @@ namespace TankWars
                         Console.WriteLine("Введите допустимое число");
                 }
                 while (!IsParsed);
-                ourAction = (Actions)int.Parse(ioAction); 
-                
+                ourAction = (Actions)int.Parse(ioAction);
+
+                Console.WriteLine(); 
                 // Наш ход. 
                 switch (ourAction)
                 {
@@ -83,8 +84,9 @@ namespace TankWars
                 }
                 else
                 {
+                    Console.WriteLine(); 
                     // Генерация действия противника.
-                    enmAction = enemyTank.ComputerTurn(); 
+                    enmAction = enemyTank.ComputerTurn(ourTank); 
 
                     // Ход противника. 
                     switch (enmAction)
