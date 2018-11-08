@@ -6,29 +6,14 @@ using System.Threading.Tasks;
 
 namespace TankWars
 {
-    public enum Actions
+    public class Tank : ITank
     {
-        Shoot = 1,
-        Repair,
-        Buy
-    }
-
-    public enum ShootResult
-    {
-        Usual = 1,
-        Critical,
-        Miss,
-        NoRounds
-    }
-
-    public class Tank
-    {
-        public int Armor;
-        public int Health;
-        public int Damage;
-        public int RoundsNum;
-        public readonly int MaxHealth;
-        protected readonly Random random; 
+        public int Armor { get; set; }
+        public int Health { get; set; }
+        public int Damage { get; set; }
+        public int RoundsNum { get; set; }
+        protected readonly int MaxHealth;
+        protected readonly Random Random; 
 
         /// <summary>
         /// Инициализирует класс Tank
@@ -44,7 +29,7 @@ namespace TankWars
             Damage = nDamage;
             RoundsNum = 5;
             // random для определения критических попаданий и промахов. 
-            random = new Random(); 
+            Random = new Random(); 
         }
 
         /// <summary>
@@ -58,7 +43,7 @@ namespace TankWars
             if (RoundsNum != 0)
             {
                 result = ShootResult.Usual; 
-                double SR = random.NextDouble();
+                double SR = Random.NextDouble();
                 int DamageInThisShoot = Damage; 
                 // Проверяем промах (20%)
                 if (SR <= 0.2)
