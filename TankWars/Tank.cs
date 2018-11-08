@@ -8,7 +8,7 @@ namespace TankWars
 {
     enum Actions
     {
-        Shoot,
+        Shoot = 1,
         Repair
     }
 
@@ -22,12 +22,12 @@ namespace TankWars
         {
             Armor = nArmor;
             Health = nHealth;
-            Armor = nArmor; 
+            Damage = nDamage; 
         }
 
         public void Shoot(Tank EnemyTank)
         {
-            EnemyTank.Health += Armor - Damage; 
+            EnemyTank.Health += EnemyTank.Armor - Damage; 
         }
 
         public void Repair()
