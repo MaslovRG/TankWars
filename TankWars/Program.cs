@@ -15,7 +15,7 @@ namespace TankWars
 
             Random enemyRandom = new Random();
             bool isEnd = false;
-            bool isParsed = false;
+            bool IsParsed = false;
             Actions ourAction = Actions.Shoot;
             Actions enmAction = Actions.Shoot; 
 
@@ -29,20 +29,23 @@ namespace TankWars
                     " 2. Ремонт\n" +
                     "Введите число, соотвествующее желаемому действию:");
 
-                isParsed = false; 
-                while (!isParsed)
+                // Считывание действия пользователя с проверкой правильности ввода. 
+                string ioAction = "";
+                do
                 {
-                    isParsed = int.TryParse(Console.ReadLine(), out int iAction);
-
-                    if (!isParsed || iAction < 1 || iAction > 3)
+                    ioAction = Console.ReadLine();
+                    if (ioAction != "1" && ioAction != "2")
                     {
-                        Console.WriteLine("Введите 1 или 2!");
-                        isParsed = false; 
+                        Console.WriteLine("Введите 1 или 2");
+                        IsParsed = false; 
                     }
                     else
-                        ourAction = (Actions)iAction;     
+                        IsParsed = true;
                 }
+                while (!IsParsed);
+                ourAction = (Actions)int.Parse(ioAction); 
                 
+                // Наш ход. 
                 switch (ourAction)
                 {
                     case Actions.Shoot:
@@ -55,20 +58,22 @@ namespace TankWars
                         break;
                 }
 
-                if (enemyTank.Health < 1)
+                // Наша победа. 
+                if (enemyTank.Health <= 0)
                 {
                     Console.WriteLine("Победа! Вражеский танк уничтожен!");
                     isEnd = true;
                 }
                 else
                 {
-
+                    // Генерация действия противника.
                     double ieAction = enemyRandom.NextDouble();
                     if (ieAction > 0.5)
                         enmAction = Actions.Shoot;
                     else
                         enmAction = Actions.Repair;
 
+                    // Ход противника. 
                     switch (enmAction)
                     {
                         case Actions.Shoot:
@@ -81,7 +86,8 @@ namespace TankWars
                             break;
                     }
 
-                    if (ourTank.Health < 1)
+                    // Победа противника. 
+                    if (ourTank.Health <= 0)
                     {
                         Console.WriteLine("Поражение! Наш танк уничтожен!");
                         isEnd = true; 
