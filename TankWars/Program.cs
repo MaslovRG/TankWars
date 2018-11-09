@@ -36,8 +36,11 @@ namespace TankWars
                 {
                     ioAction = Console.ReadLine();
                     IsParsed = Enum.TryParse(ioAction, out ourAction);
-                    if (!IsParsed)
+                    if (!IsParsed || (int)ourAction < 1 || (int)ourAction > 3)
+                    {
                         Console.WriteLine("Введите допустимое число");
+                        IsParsed = false; 
+                    }
                 }
                 while (!IsParsed);
 
