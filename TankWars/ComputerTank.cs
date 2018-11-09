@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankWars
 {
-    // Особые реализации Shoot(), Repair() и BuyRounds()
+    // Класс Tank с особыми реализациями Shoot(), Repair() и BuyRounds(). 
     public class ComputerTank : ITank, IComputer
     {
         public int Armor { get; set; }

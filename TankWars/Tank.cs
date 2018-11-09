@@ -28,7 +28,7 @@ namespace TankWars
             MaxHealth = nHealth; 
             Damage = nDamage;
             RoundsNum = 5;
-            // random для определения критических попаданий и промахов. 
+            // Random для определения критических попаданий и промахов. 
             Random = new Random(); 
         }
 
